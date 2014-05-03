@@ -1,5 +1,4 @@
-node_modules/.bin/r.js
-node_modules/requirejs/README.md
-node_modules/requirejs/bin/r.js
-node_modules/requirejs/package.json
-node_modules/requirejs/require.js
+*node_modules*
+*.sass-cache*
+css
+js/app*
