@@ -1,22 +1,30 @@
-requirejs.config({
-  baseUrl: 'js/',
+window.onload = function () {
+  MIDI.loadPlugin({
+    soundfontUrl: "./soundfont/",
+    instrument: "acoustic_grand_piano",
+    callback: function() {
+      $('#piano').click(function(event) {
+        var note = $(event.target).data('note');
 
-  paths: {
-    jquery: 'libs/jquery-1.11.1.min',
-    'jquery.cookie': 'lib/jquery.cookie-1.4.0',
-    underscore: 'lib/underscore-1.6.0',
-    fiber: 'libs/fiber.min'
-  },
-
-  shim: {
-    'jquery.cookie': {
-      deps: ['jquery']
+        playNote(note)
+      });
     }
-  }
-});
-
-
-require(['controllers/keysController'],
-  function (KeysController) {
-    var controller = new KeysController();
   });
+
+};
+
+function pianoReady() {
+
+}
+
+function playNote(note) {
+  var delay = 0; // play one note every quarter second
+  var velocity = 127; // how hard the note hits
+  MIDI.setVolume(0, 127);
+  MIDI.noteOn(0, note, velocity, delay);
+  MIDI.noteOff(0, note, delay + 0.75);
+}
+
+function getAsyncMusicData() {
+
+}
