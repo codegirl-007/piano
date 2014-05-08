@@ -3,20 +3,39 @@ window.onload = function () {
     soundfontUrl: "./soundfont/",
     instrument: "acoustic_grand_piano",
     callback: function() {
-      $('#piano').on('click', function(event) {
-        var note = $(event.target).data('note');
-        playNote(note);
-      });
-      $(document).on('keydown', parseAction);
-      $(document).on('keyup', releaseAction);
+      $(window).trigger('ready'); //trigger an event to know when the plugin is loaded.
     }
   });
 };
 
-function releaseAction(event) {
-  $(".anchor").removeClass('active');
+$(window).on('ready', function() { //here we are listening for the ready event.
+  assignHandlers();
+});
+
+/**
+ * @method assignHandlers creates the click, keydown and keyup event handlers when the font is loaded
+ */
+function assignHandlers() {
+  $('#piano').on('click', function(event) {
+    var note = $(event.target).data('note');
+    playNote(note);
+  });
+  $(document).on('keydown', parseAction);
+  $(document).on('keyup', releaseAction);
 }
 
+/**
+ * @method method to execute whenever the user triggers a keyup event.
+ * @param event
+ */
+function releaseAction(event) {
+  $(".anchor").removeClass('active'); //make the piano keys look like they're being pressed when user is using a keyboard
+}
+
+/**
+ * @method parseAction handles keydown events by detecting the user's event keycode and playing the proper note.
+ * @param event
+ */
 function parseAction(event) {
   var keycode = event.keyCode;
 
@@ -48,13 +67,19 @@ function parseAction(event) {
   }
 }
 
+/**
+ * @method triggerAction method to trigger UI change to make the key look pressed and to play the note.
+ * @param note
+ */
 function triggerAction(note) {
   $(".anchor[data-note="+note+"]").addClass('active');
   playNote(note);
 }
 
-
-
+/**
+ * @method playNote plays the note.
+ * @param note the midi number of the key the user wants to press.
+ */
 function playNote(note) {
   var delay = 0; // play one note every quarter second
   var velocity = 127; // how hard the note hits
