@@ -127,3 +127,42 @@ function playSecondMajorInversion(note) {
   MIDI.noteOn(0, third, velocity, delay);
   MIDI.noteOn(0, fifth, velocity, delay);
 }
+
+/**
+ * @method playRootMinor play the minor chord in the root position
+ * @param note
+ */
+function playRootMinor(note) {
+  var root = note;
+  var third = note + 3;
+  var fifth = note +7;
+  MIDI.noteOn(0, root, velocity, delay);
+  MIDI.noteOn(0, third, velocity, delay);
+  MIDI.noteOn(0, fifth, velocity, delay);
+}
+
+/**
+ * @method playFirstMinorInversion play the minor chord in the 1st inversion
+ * @param note
+ */
+function playFirstMinorInversion(note) {
+  var root = note+3;
+  var third = root+4;
+  var fifth = root+5;
+  MIDI.noteOn(0, root, velocity, delay);
+  MIDI.noteOn(0, third, velocity, delay);
+  MIDI.noteOn(0, fifth, velocity, delay);
+}
+
+/**
+ * @method playSecondMinorInversion play the minor chord in the 2nd inversion
+ * @param note
+ */
+function playSecondMinorInversion(note) {
+  var root = note+7;
+  var third = root+5;
+  var fifth = root+3;
+  MIDI.noteOn(0, root, velocity, delay);
+  MIDI.noteOn(0, third, velocity, delay);
+  MIDI.noteOn(0, fifth, velocity, delay);
+}
