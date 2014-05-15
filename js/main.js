@@ -9,7 +9,26 @@ window.onload = function () {
 };
 
 $(window).on('ready', function() { //here we are listening for the ready event.
-  assignHandlers();
+  midiBridge.init(function(MidiAccess) {
+    var input = MIDIAccess.getInput(MIDIAccess.enumerateInputs()[0]);
+    var output = MIDIAccess.getOutput(MIDIAccess.enumerateOutputs()[0]);
+
+    if(input){
+      console.log(input.deviceName);
+
+      input.addEventListener("midimessage",function(e){
+        console.log('message: ' + e.toString());
+
+        if(output){
+          output.sendMIDIMessage(e);
+        }
+      });
+    }
+
+    if(output){
+      console.log(output.deviceName);
+    }
+  })
 });
 
 /**
