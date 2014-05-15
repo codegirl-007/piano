@@ -28,7 +28,8 @@ $(window).on('ready', function() { //here we are listening for the ready event.
     if(output){
       console.log(output.deviceName);
     }
-  })
+  });
+  assignHandlers();
 });
 
 /**
