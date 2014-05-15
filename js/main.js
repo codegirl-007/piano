@@ -76,13 +76,14 @@ function triggerAction(note) {
   playNote(note);
 }
 
+var delay = 0; // play one note every quarter second
+var velocity = 127; // how hard the note hits
+
 /**
  * @method playNote plays the note.
  * @param note the midi number of the key the user wants to press.
  */
 function playNote(note) {
-  var delay = 0; // play one note every quarter second
-  var velocity = 127; // how hard the note hits
   MIDI.setVolume(0, 127);
   MIDI.noteOn(0, note, velocity, delay);
   MIDI.noteOff(0, note, delay + 0.75);
@@ -93,11 +94,12 @@ function playNote(note) {
  * @param note
  */
 function playRootMajor(note) {
-  var major3rd = note + 4;
-  var dom = note +7;
-  MIDI.noteOn(0, note, velocity, delay);
-  MIDI.noteOn(0, major3rd, velocity, delay);
-  MIDI.noteOn(0, dom, velocity, delay);
+  var root = note;
+  var third = note + 4;
+  var fifth = note +7;
+  MIDI.noteOn(0, root, velocity, delay);
+  MIDI.noteOn(0, third, velocity, delay);
+  MIDI.noteOn(0, fifth, velocity, delay);
 }
 
 /**
@@ -108,6 +110,9 @@ function playFirstMajorInversion(note) {
   var root = note+4;
   var third = root+3;
   var fifth = root+5;
+  MIDI.noteOn(0, root, velocity, delay);
+  MIDI.noteOn(0, third, velocity, delay);
+  MIDI.noteOn(0, fifth, velocity, delay);
 }
 
 /**
@@ -118,4 +123,7 @@ function playSecondMajorInversion(note) {
   var root = note+7;
   var third = root+5;
   var fifth = root+4;
+  MIDI.noteOn(0, root, velocity, delay);
+  MIDI.noteOn(0, third, velocity, delay);
+  MIDI.noteOn(0, fifth, velocity, delay);
 }
