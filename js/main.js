@@ -87,3 +87,35 @@ function playNote(note) {
   MIDI.noteOn(0, note, velocity, delay);
   MIDI.noteOff(0, note, delay + 0.75);
 }
+
+/**
+ * @playRootMajor play the major chord in the root position
+ * @param note
+ */
+function playRootMajor(note) {
+  var major3rd = note + 4;
+  var dom = note +7;
+  MIDI.noteOn(0, note, velocity, delay);
+  MIDI.noteOn(0, major3rd, velocity, delay);
+  MIDI.noteOn(0, dom, velocity, delay);
+}
+
+/**
+ * playFirstMajorInversion play the major chord in the first inversion
+ * @param note
+ */
+function playFirstMajorInversion(note) {
+  var root = note+4;
+  var third = root+3;
+  var fifth = root+5;
+}
+
+/**
+ * @playSecondMajorInversion play the major chord in teh second inversion
+ * @param note
+ */
+function playSecondMajorInversion(note) {
+  var root = note+7;
+  var third = root+5;
+  var fifth = root+4;
+}
