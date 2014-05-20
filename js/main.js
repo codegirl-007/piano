@@ -10,6 +10,7 @@ window.onload = function () {
 
 $(window).on('ready', function() { //here we are listening for the ready event.
   midiBridge.init(function(MidiAccess) {
+    console.log(MidiAccess);
     var input = MIDIAccess.getInput(MIDIAccess.enumerateInputs()[0]);
     var output = MIDIAccess.getOutput(MIDIAccess.enumerateOutputs()[0]);
 
@@ -93,7 +94,7 @@ function parseAction(event) {
  */
 function triggerAction(note) {
   $(".anchor[data-note="+note+"]").addClass('active');
-  playNote(note);
+  playAugmented(note);
 }
 
 var delay = 0; // play one note every quarter second
@@ -109,17 +110,21 @@ function playNote(note) {
   MIDI.noteOff(0, note, delay + 0.75);
 }
 
+function multinotes(root, third, fifth) {
+  MIDI.noteOn(0, root, velocity, delay);
+  MIDI.noteOn(0, third, velocity, delay);
+  MIDI.noteOn(0, fifth, velocity, delay);
+}
+
 /**
  * @playRootMajor play the major chord in the root position
  * @param note
  */
 function playRootMajor(note) {
-  var root = note;
-  var third = note + 4;
-  var fifth = note +7;
-  MIDI.noteOn(0, root, velocity, delay);
-  MIDI.noteOn(0, third, velocity, delay);
-  MIDI.noteOn(0, fifth, velocity, delay);
+  var root = note,
+    third = note + 4,
+    fifth = note +7;
+  multinotes(root, third, fifth);
 }
 
 /**
@@ -127,12 +132,10 @@ function playRootMajor(note) {
  * @param note
  */
 function playFirstMajorInversion(note) {
-  var root = note+4;
-  var third = root+3;
-  var fifth = root+5;
-  MIDI.noteOn(0, root, velocity, delay);
-  MIDI.noteOn(0, third, velocity, delay);
-  MIDI.noteOn(0, fifth, velocity, delay);
+  var root = note+ 4,
+    third = root+ 3,
+    fifth = root+5;
+  multinotes(root, third, fifth);
 }
 
 /**
@@ -140,12 +143,10 @@ function playFirstMajorInversion(note) {
  * @param note
  */
 function playSecondMajorInversion(note) {
-  var root = note+7;
-  var third = root+5;
-  var fifth = root+4;
-  MIDI.noteOn(0, root, velocity, delay);
-  MIDI.noteOn(0, third, velocity, delay);
-  MIDI.noteOn(0, fifth, velocity, delay);
+  var root = note+ 7,
+    third = root+ 5,
+    fifth = root+4;
+  multinotes(root, third, fifth);
 }
 
 /**
@@ -153,12 +154,10 @@ function playSecondMajorInversion(note) {
  * @param note
  */
 function playRootMinor(note) {
-  var root = note;
-  var third = note + 3;
-  var fifth = note +7;
-  MIDI.noteOn(0, root, velocity, delay);
-  MIDI.noteOn(0, third, velocity, delay);
-  MIDI.noteOn(0, fifth, velocity, delay);
+  var root = note,
+    third = note + 3,
+    fifth = note +7;
+  multinotes(root, third, fifth);
 }
 
 /**
@@ -166,12 +165,10 @@ function playRootMinor(note) {
  * @param note
  */
 function playFirstMinorInversion(note) {
-  var root = note+3;
-  var third = root+4;
-  var fifth = root+5;
-  MIDI.noteOn(0, root, velocity, delay);
-  MIDI.noteOn(0, third, velocity, delay);
-  MIDI.noteOn(0, fifth, velocity, delay);
+  var root = note+ 3,
+    third = root+ 4,
+    fifth = root+5;
+  multinotes(root, third, fifth);
 }
 
 /**
@@ -179,10 +176,29 @@ function playFirstMinorInversion(note) {
  * @param note
  */
 function playSecondMinorInversion(note) {
-  var root = note+7;
-  var third = root+5;
-  var fifth = root+3;
-  MIDI.noteOn(0, root, velocity, delay);
-  MIDI.noteOn(0, third, velocity, delay);
-  MIDI.noteOn(0, fifth, velocity, delay);
+  var root = note+ 7,
+    third = root+ 5,
+    fifth = root+3;
+  multinotes(root, third, fifth);
+}
+
+function playAugmented(note) {
+  var root = note,
+    third = note + 4,
+    fifth = root + 8;
+  multinotes(root, third, fifth);
+}
+
+function playDiminished(note) {
+  var root = note,
+    third = note + 3,
+    fifth = note + 3;
+  multinotes(root, third, fifth);
+}
+
+function playSuspended(note) {
+  var root = note,
+    third = note + 5,
+    fifth = note + 7;
+  multinotes(root, third, fifth);
 }
