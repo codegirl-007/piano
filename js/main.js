@@ -9,27 +9,6 @@ window.onload = function () {
 };
 
 $(window).on('ready', function() { //here we are listening for the ready event.
-  midiBridge.init(function(MidiAccess) {
-    console.log(MidiAccess);
-    var input = MIDIAccess.getInput(MIDIAccess.enumerateInputs()[0]);
-    var output = MIDIAccess.getOutput(MIDIAccess.enumerateOutputs()[0]);
-
-    if(input){
-      console.log(input.deviceName);
-
-      input.addEventListener("midimessage",function(e){
-        console.log('message: ' + e.toString());
-
-        if(output){
-          output.sendMIDIMessage(e);
-        }
-      });
-    }
-
-    if(output){
-      console.log(output.deviceName);
-    }
-  });
   assignHandlers();
 });
 
@@ -110,7 +89,8 @@ function playNote(note) {
   MIDI.noteOff(0, note, delay + 0.75);
 }
 
-function multinotes(root, third, fifth) {
+function multinotes() {
+  notes = arguments;
   MIDI.noteOn(0, root, velocity, delay);
   MIDI.noteOn(0, third, velocity, delay);
   MIDI.noteOn(0, fifth, velocity, delay);
