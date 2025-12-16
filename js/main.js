@@ -1,36 +1,20 @@
-// Constants
 var DELAY = 0; // play one note every quarter second
 var VELOCITY = 127; // how hard the note hits
 var ACTIVE_FEEDBACK_DURATION = 200; // milliseconds
 var NOTE_DURATION = 750; // milliseconds - how long a note plays
 var NOTE_OFF_DELAY = 0.75; // seconds - delay before note stops
 
-// Cached DOM elements and key mappings
 var pianoElement = null;
 var keyElementsMap = new Map(); // Maps note number to DOM element
 var activeNotes = new Set(); // Track currently playing notes to prevent duplicates
-var pressedKeys = new Set(); // Track currently pressed keyboard keys to prevent repeat
 var activeTimeouts = new Map(); // Track timeouts for cleanup
 
-// Web MIDI API support
 var midiAccess = null;
 var midiInputs = new Map(); // Track connected MIDI input devices
 var midiDeviceStatus = {
   supported: false,
   connected: false,
   deviceCount: 0
-};
-
-// Keyboard mapping: lowercase key -> MIDI note (normalized in parseAction)
-var KEYBOARD_MAP = {
-  'q': 60, // C4
-  'w': 62, // D4
-  'e': 64, // E4
-  'r': 65, // F4
-  't': 67, // G4
-  'y': 69, // A4
-  'u': 71, // B4
-  'i': 72  // C5
 };
 
 /**
@@ -141,18 +125,23 @@ function playNoteInternal(note, velocity) {
   // Use provided velocity or default
   var noteVelocity = (velocity !== undefined && velocity >= 0 && velocity <= 127) ? velocity : VELOCITY;
   
-  // Clear any existing timeout for this note
+  // Cancel any pending noteOff timeout for this note
   clearNoteTimeout(note);
   
+  // Stop any currently playing note of the same pitch immediately
+  // This ensures rapid repeats stop the previous note and start fresh
+  MIDI.noteOff(0, note, 0);
+  
+  // Start the new note
   MIDI.setVolume(0, 127);
   MIDI.noteOn(0, note, noteVelocity, DELAY);
-  MIDI.noteOff(0, note, DELAY + NOTE_OFF_DELAY);
   
-  // Track timeout for cleanup
+  // Schedule noteOff for this note
   var timeoutId = setTimeout(function() {
+    MIDI.noteOff(0, note, 0);
     activeNotes.delete(note);
     activeTimeouts.delete(note);
-  }, NOTE_DURATION);
+  }, (DELAY + NOTE_OFF_DELAY) * 1000);
   
   activeTimeouts.set(note, timeoutId);
 }
@@ -165,16 +154,13 @@ function handlePianoClick(event) {
   var note = getNoteFromElement(event.target);
   
   if (note && isValidNote(note)) {
-    // Prevent duplicate triggers for the same note
-    if (!activeNotes.has(note)) {
-      activeNotes.add(note);
-      
-      // Get cached key element
-      var keyElement = keyElementsMap.get(note);
-      addKeyFeedback(keyElement);
-      
-      playNoteInternal(note);
-    }
+    activeNotes.delete(note);
+    activeNotes.add(note);
+    
+    var keyElement = keyElementsMap.get(note);
+    addKeyFeedback(keyElement);
+    
+    playNoteInternal(note);
   }
 }
 
@@ -190,22 +176,20 @@ function handleTouchStart(event) {
     var note = getNoteFromElement(target);
     
     if (note && isValidNote(note)) {
-      // Prevent duplicate triggers for the same note
-      if (!activeNotes.has(note)) {
-        activeNotes.add(note);
-        
-        // Get cached key element
-        var keyElement = keyElementsMap.get(note);
-        addKeyFeedback(keyElement);
-        
-        playNoteInternal(note);
-      }
+      activeNotes.delete(note);
+      activeNotes.add(note);
+      
+      // Get cached key element
+      var keyElement = keyElementsMap.get(note);
+      addKeyFeedback(keyElement);
+      
+      playNoteInternal(note);
     }
   }
 }
 
 /**
- * @method assignHandlers creates the click, keydown and keyup event handlers when the font is loaded
+ * @method assignHandlers creates the click and touch event handlers when the font is loaded
  */
 function assignHandlers() {
   if (!pianoElement) {
@@ -213,84 +197,11 @@ function assignHandlers() {
     return;
   }
   
-  // Handle clicks on piano keys (both white and black keys)
   pianoElement.addEventListener('click', handlePianoClick);
   
-  // Handle touch events for mobile devices
   pianoElement.addEventListener('touchstart', handleTouchStart, { passive: false });
-  
-  // Keyboard event handlers
-  document.addEventListener('keydown', parseAction);
-  document.addEventListener('keyup', releaseAction);
 }
 
-/**
- * @method releaseAction executes whenever the user triggers a keyup event.
- * @param {KeyboardEvent} event
- */
-function releaseAction(event) {
-  var key = event.key ? event.key.toLowerCase() : null;
-  
-  // Only process if it's a mapped key
-  if (key && key in KEYBOARD_MAP) {
-    pressedKeys.delete(key);
-    
-    // Remove active class from the specific key element
-    var note = KEYBOARD_MAP[key];
-    var keyElement = keyElementsMap.get(note);
-    if (keyElement) {
-      keyElement.classList.remove('active');
-    }
-    
-    // Remove from active notes set
-    activeNotes.delete(note);
-    clearNoteTimeout(note);
-  }
-}
-
-/**
- * @method parseAction handles keydown events by detecting the user's key and playing the proper note.
- * @param {KeyboardEvent} event
- */
-function parseAction(event) {
-  // Normalize key to lowercase
-  var key = event.key ? event.key.toLowerCase() : null;
-  
-  // Prevent browser shortcuts and handle key repeat
-  if (key && key in KEYBOARD_MAP) {
-    event.preventDefault();
-    
-    // Prevent key repeat - only trigger if key wasn't already pressed
-    if (!pressedKeys.has(key)) {
-      pressedKeys.add(key);
-      
-      var note = KEYBOARD_MAP[key];
-      triggerAction(note);
-    }
-  }
-}
-
-/**
- * @method triggerAction triggers UI change to make the key look pressed and to play the note.
- * @param {number} note - The MIDI note number
- */
-function triggerAction(note) {
-  if (!isValidNote(note)) {
-    return;
-  }
-  
-  // Get cached key element
-  var keyElement = keyElementsMap.get(note);
-  if (keyElement) {
-    addKeyFeedback(keyElement);
-  }
-  
-  // Prevent duplicate triggers
-  if (!activeNotes.has(note)) {
-    activeNotes.add(note);
-    playNoteInternal(note);
-  }
-}
 
 /**
  * @method playNote plays a single note (public API).
@@ -302,17 +213,14 @@ function playNote(note) {
     return;
   }
   
-  // Get cached key element for visual feedback
   var keyElement = keyElementsMap.get(note);
   if (keyElement) {
     addKeyFeedback(keyElement);
   }
   
-  // Prevent duplicate triggers
-  if (!activeNotes.has(note)) {
-    activeNotes.add(note);
-    playNoteInternal(note);
-  }
+  activeNotes.delete(note);
+  activeNotes.add(note);
+  playNoteInternal(note);
 }
 
 /**
@@ -322,7 +230,6 @@ function playNote(note) {
  * @param {number} fifth - The fifth note
  */
 function multinotes(root, third, fifth) {
-  // Validate all notes
   if (!isValidNote(root) || !isValidNote(third) || !isValidNote(fifth)) {
     console.warn('Invalid MIDI note in chord:', root, third, fifth);
     return;
@@ -494,19 +401,19 @@ function handleMIDIMessage(event) {
   if (command === 0x90 && velocity > 0) {
     // Note On
     if (isValidNote(note)) {
-      // Prevent duplicate triggers
-      if (!activeNotes.has(note)) {
-        activeNotes.add(note);
-        
-        // Get cached key element for visual feedback
-        var keyElement = keyElementsMap.get(note);
-        if (keyElement) {
-          addKeyFeedback(keyElement);
-        }
-        
-        // Play note with velocity from MIDI keyboard
-        playNoteInternal(note, velocity);
+      // Remove from activeNotes so we can play the same note again
+      // This allows rapid repeats - each press stops the previous and starts new
+      activeNotes.delete(note);
+      activeNotes.add(note);
+      
+      // Get cached key element for visual feedback
+      var keyElement = keyElementsMap.get(note);
+      if (keyElement) {
+        addKeyFeedback(keyElement);
       }
+      
+      // Play note with velocity from MIDI keyboard
+      playNoteInternal(note, velocity);
     }
   } else if (command === 0x80 || (command === 0x90 && velocity === 0)) {
     // Note Off
@@ -649,7 +556,6 @@ window.addEventListener('beforeunload', function() {
   });
   activeTimeouts.clear();
   activeNotes.clear();
-  pressedKeys.clear();
   
   // Disconnect MIDI inputs
   midiInputs.forEach(function(input) {
