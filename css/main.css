@@ -1,0 +1,347 @@
+/* CSS Reset - Replaces Compass reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Piano Wrapper */
+
+#p-wrapper {
+  background: #000;
+  background: -webkit-linear-gradient(-60deg, black, #333333, black, #666666, #333333 70%);
+  background: -moz-linear-gradient(-60deg, black, #333333, black, #666666, #333333 70%);
+  background: -ms-linear-gradient(-60deg, black, #333333, black, #666666, #333333 70%);
+  background: -o-linear-gradient(-60deg, black, #333333, black, #666666, #333333 70%);
+  background: linear-gradient(-60deg, black, #333333, black, #666666, #333333 70%);
+  width: 100%;
+  position: relative;
+  -webkit-box-shadow: 0 2px 0px #666666, 0 3px 0px #555555, 0 4px 0px #444444, 0 6px 6px black, inset 0 -1px 1px rgba(255, 255, 255, 0.5), inset 0 -4px 5px black;
+  -moz-box-shadow: 0 2px 0px #666666, 0 3px 0px #555555, 0 4px 0px #444444, 0 6px 6px black, inset 0 -1px 1px rgba(255, 255, 255, 0.5), inset 0 -4px 5px black;
+  box-shadow: 0 2px 0px #666666, 0 3px 0px #555555, 0 4px 0px #444444, 0 6px 6px black, inset 0 -1px 1px rgba(255, 255, 255, 0.5), inset 0 -4px 5px black;
+  border: 2px solid #333;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  -webkit-animation: taufik 2s;
+  -moz-animation: taufik 2s;
+  animation: taufik 2s;
+  margin: 0 auto;
+}
+
+/* Tuts */
+
+ul#piano {
+  display: block;
+  width: 1560px;
+  height: 240px;
+  border-top: 2px solid #222;
+  margin: 0 auto;
+}
+
+ul#piano li {
+  list-style: none;
+  float: left;
+  display: inline;
+  width: 30px;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  font-size: 10px;
+  font-family: arial, sans-serif;
+  line-height: 17px;
+}
+
+ul#piano li a,
+ul#piano li div.anchor {
+  display: block;
+  height: 220px;
+  background: #fff;
+  background: -webkit-linear-gradient(-30deg, whitesmoke, white);
+  background: -moz-linear-gradient(-30deg, whitesmoke, white);
+  background: -ms-linear-gradient(-30deg, whitesmoke, white);
+  background: -o-linear-gradient(-30deg, whitesmoke, white);
+  background: linear-gradient(-30deg, whitesmoke, white);
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 0px white, inset 0 -1px 0px white, inset 1px 0px 0px white, inset -1px 0px 0px white, 0 4px 3px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: inset 0 1px 0px white, inset 0 -1px 0px white, inset 1px 0px 0px white, inset -1px 0px 0px white, 0 4px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 1px 0px white, inset 0 -1px 0px white, inset 1px 0px 0px white, inset -1px 0px 0px white, 0 4px 3px rgba(0, 0, 0, 0.7);
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
+  -webkit-transition: box-shadow 0.2s ease, top 0.2s ease, height 0.2s ease;
+  -moz-transition: box-shadow 0.2s ease, top 0.2s ease, height 0.2s ease;
+  -ms-transition: box-shadow 0.2s ease, top 0.2s ease, height 0.2s ease;
+  -o-transition: box-shadow 0.2s ease, top 0.2s ease, height 0.2s ease;
+  transition: box-shadow 0.2s ease, top 0.2s ease, height 0.2s ease;
+}
+
+ul#piano li a:active,
+ul#piano li div.anchor:active,
+ul#piano li div.active {
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+  position: relative;
+  top: 2px;
+  height: 216px;
+}
+
+ul#piano li a:active:before,
+ul#piano li div.anchor:active:before,
+ul#piano li div.active:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  border-width: 216px 5px 0px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.1);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+ul#piano li a:active:after,
+ul#piano li div.anchor:active:after {
+  content: "";
+  width: 0px;
+  height: 0px;
+  border-width: 216px 5px 0px;
+  border-style: solid;
+  border-color: transparent rgba(0, 0, 0, 0.1) transparent transparent;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+ul#piano li span {
+  position: absolute;
+  top: 0px;
+  left: -12px;
+  width: 20px;
+  height: 120px;
+  background: #333;
+  background: -webkit-linear-gradient(-20deg, #333333, black, #333333);
+  background: -moz-linear-gradient(-20deg, #333333, black, #333333);
+  background: -ms-linear-gradient(-20deg, #333333, black, #333333);
+  background: -o-linear-gradient(-20deg, #333333, black, #333333);
+  background: linear-gradient(-20deg, #333333, black, #333333);
+  z-index: 10;
+  border-width: 1px 2px 7px;
+  border-style: solid;
+  border-color: #666 #222 #111 #555;
+  -webkit-box-shadow: inset 0px -1px 2px rgba(255, 255, 255, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: inset 0px -1px 2px rgba(255, 255, 255, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0px -1px 2px rgba(255, 255, 255, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 0 0 2px 2px;
+  -moz-border-radius: 0 0 2px 2px;
+  border-radius: 0 0 2px 2px;
+  -webkit-transition: box-shadow 0.2s ease, border-bottom-width 0.2s ease, height 0.2s ease;
+  -moz-transition: box-shadow 0.2s ease, border-bottom-width 0.2s ease, height 0.2s ease;
+  -ms-transition: box-shadow 0.2s ease, border-bottom-width 0.2s ease, height 0.2s ease;
+  -o-transition: box-shadow 0.2s ease, border-bottom-width 0.2s ease, height 0.2s ease;
+  transition: box-shadow 0.2s ease, border-bottom-width 0.2s ease, height 0.2s ease;
+}
+
+ul#piano li span:active {
+  border-bottom-width: 2px;
+  height: 123px;
+  -webkit-box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.4), 0 1px 0px rgba(0, 0, 0, 0.8), 0 2px 2px rgba(0, 0, 0, 0.4), 0 -1px 0px black;
+  -moz-box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.4), 0 1px 0px rgba(0, 0, 0, 0.8), 0 2px 2px rgba(0, 0, 0, 0.4), 0 -1px 0px black;
+  box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.4), 0 1px 0px rgba(0, 0, 0, 0.8), 0 2px 2px rgba(0, 0, 0, 0.4), 0 -1px 0px black;
+}
+
+ul#piano li span.active {
+  border-bottom-width: 2px;
+  height: 123px;
+  -webkit-box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.4), 0 1px 0px rgba(0, 0, 0, 0.8), 0 2px 2px rgba(0, 0, 0, 0.4), 0 -1px 0px black;
+  -moz-box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.4), 0 1px 0px rgba(0, 0, 0, 0.8), 0 2px 2px rgba(0, 0, 0, 0.4), 0 -1px 0px black;
+  box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.4), 0 1px 0px rgba(0, 0, 0, 0.8), 0 2px 2px rgba(0, 0, 0, 0.4), 0 -1px 0px black;
+}
+
+ul#piano li b {
+  position: absolute;
+  top: 0px;
+  margin-top: -10px;
+  background: #111;
+  color: #fff;
+  font: bold 14px 'Trebuchet MS',Arial,Sans-Serif;
+  border: 2px solid #e6e6e6;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  width: 100px;
+  height: 30px;
+  padding: 10px;
+  left: -40px;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+ul#piano li b:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 50px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: #e6e6e6 transparent transparent transparent;
+}
+
+ul#piano li b:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 53px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #111 transparent transparent transparent;
+}
+
+ul#piano li:hover b {
+  visibility: visible;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+ul#piano li ul {
+  position: absolute;
+  border: 2px solid #e6e6e6;
+  margin-top: -100px;
+  top: 100%;
+  left: 0px;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-box-shadow: 0 2px 7px #000;
+  -moz-box-shadow: 0 2px 7px #000;
+  box-shadow: 0 2px 7px #000;
+  -webkit-transition: all 0.2s ease-out 0.2s;
+  -moz-transition: all 0.2s ease-out 0.2s;
+  -ms-transition: all 0.2s ease-out 0.2s;
+  -o-transition: all 0.2s ease-out 0.2s;
+  transition: all 0.2s ease-out 0.2s;
+}
+
+ul#piano li li {
+  width: 150px;
+  height: auto;
+  display: block;
+  float: none;
+  background: transparent;
+}
+
+ul#piano li li a {
+  height: auto;
+  display: block;
+  padding: 10px 15px;
+  background: #333;
+  font: normal 12px Arial,Sans-Serif;
+  color: #fff;
+  text-decoration: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: #444 transparent #222 transparent;
+  top: 0px;
+  margin-top: 0px;
+}
+
+ul#piano li li a:active {
+  height: auto;
+  display: block;
+  padding: 10px 15px;
+  background: #333;
+  font: normal 12px Arial,Sans-Serif;
+  color: #fff;
+  text-decoration: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: #444 transparent #222 transparent;
+  top: 0px;
+  margin-top: 0px;
+}
+
+ul#piano li li a:active:before,
+ul#piano li li a:active:after {
+  border: none !important;
+}
+
+ul#piano li:hover ul,
+ul#piano li:hover #search,
+ul#piano li:hover #contact {
+  visibility: visible;
+  opacity: 1;
+  margin-top: 15px;
+}
+
+ul#piano li li a:hover {
+  background: #111;
+  border-top-color: #222;
+  border-bottom-color: #000;
+}
